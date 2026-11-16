@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folio (Digital Library) — Creative Direction Board</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 system-ui, -apple-system, sans-serif; background: #ECE9E2; color: #181614; }
+  .board-head {
+    padding: 18px 24px 12px; display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; flex-wrap: wrap; border-bottom: 1px solid rgba(0,0,0,.08); background: #F5F2EC;
+  }
+  .board-head h1 { font-size: 16px; margin: 0; font-weight: 650; letter-spacing: -0.01em; }
+  .board-head .sub { font-size: 12px; color: #57534E; margin-left: 8px; font-weight: 400; }
+  .board-head label { font-size: 12px; color: #44403C; display: flex; gap: 6px; align-items: center; cursor: pointer; user-select: none; }
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; padding: 20px 24px 36px; max-width: 1440px; margin: 0 auto; }
+
+  .option {
+    background: var(--color-bg); color: var(--color-text);
+    font-family: var(--font-body); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--color-border); display: flex; flex-direction: column;
+    box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  }
+  .meta { padding: 16px 20px; border-bottom: 1px solid var(--color-border); }
+  .meta-top { display: flex; justify-content: space-between; align-items: center; }
+  .meta .letter { font: 600 11px/1 var(--font-mono, monospace); letter-spacing: .1em; color: var(--color-accent); text-transform: uppercase; }
+  .meta .badge { font: 600 10px/1 var(--font-mono, monospace); padding: 4px 7px; border-radius: 4px; background: var(--color-surface); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+  .meta h2 { font-family: var(--font-display); font-size: 23px; margin: 6px 0 4px; line-height: 1.12; font-weight: var(--display-weight, 500); }
+  .meta p { margin: 0; color: var(--color-text-muted); font-size: 12.5px; line-height: 1.45; }
+  .meta .signature { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--color-border); font-size: 12px; }
+  .meta .signature b { color: var(--color-text); }
+
+  .hero { padding: 22px 20px; background: var(--color-surface); position: relative; border-bottom: 1px solid var(--color-border); }
+  .hero .eyebrow { font: 600 10.5px/1 var(--font-mono, monospace); letter-spacing: .09em; text-transform: uppercase; color: var(--color-accent); }
+  .hero h3 { font-family: var(--font-display); font-size: var(--hero-size, 34px); line-height: 1.04; letter-spacing: var(--tracking-tight, -0.02em); margin: 8px 0 10px; font-weight: var(--display-weight, 500); }
+  .hero p { max-width: 36ch; margin: 0 0 14px; color: var(--color-text-muted); font-size: 13px; }
+  .hero-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .btn {
+    display: inline-block; padding: 9px 15px; border-radius: var(--radius-md); border: 0;
+    background: var(--color-accent); color: var(--color-accent-contrast); font: 600 12.5px var(--font-body); cursor: pointer;
+    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-1); }
+  .btn:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; }
+
+  /* Mini interactive Spine-to-Cover demo */
+  .spines { display: flex; align-items: flex-end; gap: 5px; height: 92px; padding-left: 8px; }
+  .spine {
+    height: 88px; width: 22px; border-radius: 2px; background: var(--color-accent); color: var(--color-accent-contrast);
+    font: 600 9px/1 var(--font-mono, monospace); writing-mode: vertical-rl; padding: 6px 4px;
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+    transform-origin: bottom left; transition: transform var(--duration-fast) var(--ease-out);
+    box-shadow: -2px 2px 6px rgba(0,0,0,.16); border-left: 2px solid rgba(255,255,255,.22);
+  }
+  .spine:nth-child(2) { height: 92px; width: 26px; background: var(--color-text); color: var(--color-bg); }
+  .spine:nth-child(3) { height: 80px; width: 20px; background: var(--color-surface-raised); color: var(--color-text); border: 1px solid var(--color-border); }
+  .spine:hover, .spine:focus-visible { transform: rotate(-10deg) translateY(-3px); outline: none; }
+  body.reduced .spine:hover, body.reduced .spine:focus-visible { transform: none; outline: 2px solid var(--color-focus-ring); }
+
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); border-bottom: 1px solid var(--color-border); }
+  .swatches div { height: 42px; display: flex; align-items: flex-end; padding: 4px 5px; font: 600 9.5px var(--font-mono, monospace); }
+
+  .specimen { padding: 14px 20px; border-bottom: 1px solid var(--color-border); }
+  .specimen .display { font-family: var(--font-display); font-size: 24px; line-height: 1.12; }
+  .specimen .body { font-family: var(--font-reader, var(--font-body)); font-size: 14.5px; line-height: 1.65; max-width: 58ch; margin-top: 6px; }
+  .specimen .intended { font: 10.5px var(--font-mono, monospace); color: var(--color-text-muted); margin-top: 8px; }
+
+  .components { padding: 14px 20px; display: grid; gap: 9px; border-bottom: 1px solid var(--color-border); }
+  .card { background: var(--color-surface-raised); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 11px 13px; box-shadow: var(--shadow-1); display: flex; justify-content: space-between; align-items: center; }
+  .card small { color: var(--color-text-muted); font-family: var(--font-mono, monospace); font-size: 11px; }
+  .input { width: 100%; padding: 8px 11px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font: 12.5px var(--font-body); }
+  .input:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 1px; }
+
+  .motion { padding: 12px 20px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 10px; }
+  .motion .dot { width: 22px; height: 28px; border-radius: 2px; background: var(--color-accent); box-shadow: -2px 2px 4px rgba(0,0,0,.15); }
+  .motion .track { flex: 1; height: 28px; position: relative; }
+  .motion .track .dot { position: absolute; left: 0; top: 0; }
+  .motion .track.play .dot { animation: travel var(--duration-slow) var(--ease-out) forwards; }
+  .motion button { font: 600 10.5px var(--font-mono, monospace); background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); border-radius: 4px; padding: 5px 9px; cursor: pointer; }
+  .motion code { font-size: 10px; color: var(--color-text-muted); font-family: var(--font-mono, monospace); }
+  @keyframes travel { to { transform: translateX(130px) rotate(-6deg); } }
+  @keyframes fade { from { opacity: 0.15; } to { opacity: 1; } }
+  body.reduced .motion .track.play .dot { animation: fade 140ms linear forwards; }
+
+  .contrast { padding: 12px 20px 14px; font: 10.5px/1.55 var(--font-mono, monospace); color: var(--color-text-muted); display: grid; gap: 2px; }
+  .contrast .pass { color: var(--color-text); }
+  .contrast .fail { color: #B91C1C; font-weight: 700; }
+</style>
+</head>
+<body>
+<header class="board-head">
+  <div>
+    <h1>Folio — Creative Direction Board <span class="sub">D-001: Option A confirmed (with Option C adopted as Night Lamp theme)</span></h1>
+  </div>
+  <label><input type="checkbox" id="reduced"> Simulate <code>prefers-reduced-motion: reduce</code></label>
+</header>
+
+<main class="board">
+
+  <!-- ===================== OPTION A: READING ROOM ===================== -->
+  <section class="option" data-letter="A" style="
+    --color-bg:#FBF8F3; --color-surface:#F3EDE2; --color-surface-raised:#FFFFFF;
+    --color-text:#1C1917; --color-text-muted:#57534E; --color-border:#E6DDD0;
+    --color-accent:#8C2D19; --color-accent-contrast:#FFFFFF; --color-focus-ring:#6E2010;
+    --font-display: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-reader: 'Iowan Old Style', Georgia, serif;
+    --font-body: system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    --hero-size:33px; --display-weight:500;
+    --radius-sm:3px; --radius-md:6px; --radius-lg:8px;
+    --shadow-1: 0 1px 3px rgba(28,25,23,.07);
+    --duration-fast:150ms; --duration-slow:420ms; --ease-out:cubic-bezier(0.16,1,0.3,1);">
+    <div class="meta">
+      <div class="meta-top">
+        <span class="letter">Option A · Warm Editorial</span>
+        <span class="badge">CONFIRMED (D-001)</span>
+      </div>
+      <h2>Reading Room</h2>
+      <p>Linen paper, oxblood bookcloth, and call-number slips. Calm enough for a 60-minute essay or novella.</p>
+      <p class="signature"><b>Signature move:</b> Spine-to-Cover Shelf — proportional cloth spines that tilt 14° to reveal an edition slip.</p>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">SHELF 04 · RAINY SUNDAY NOVELLAS</div>
+      <h3>Books built to be read, not scrolled past.</h3>
+      <p>Sixty-two characters per line, unhurried margins, and human-curated shelves.</p>
+      <div class="hero-row">
+        <button class="btn">Open Reading Room</button>
+        <div class="spines" aria-label="Interactive book spines preview">
+          <div class="spine" tabindex="0" title="Tilt spine: Invisible Cities">CAL · 853</div>
+          <div class="spine" tabindex="0" title="Tilt spine: A Room of One's Own">WOO · 824</div>
+          <div class="spine" tabindex="0" title="Tilt spine: Pedro Páramo">RUL · 863</div>
+        </div>
+      </div>
+    </div>
+    <div class="swatches" data-swatches></div>
+    <div class="specimen">
+      <div class="display">Chapter I — On the Margin</div>
+      <div class="body">“A book is not an isolated being: it is a relationship, an axis of innumerable relationships.” Every edition keeps its translator notes and colophon intact.</div>
+      <div class="intended">Intended: Newsreader + Plus Jakarta Sans + JetBrains Mono</div>
+    </div>
+    <div class="components">
+      <div class="card">
+        <span><strong>Invisible Cities</strong> · Italo Calvino</span>
+        <small>CAL·853 · 2.4 hrs</small>
+      </div>
+      <input class="input" aria-label="Search library" placeholder="Press / to search by title, translator, or mood…">
+    </div>
+    <div class="motion">
+      <button data-replay>Replay book open</button>
+      <div class="track"><div class="dot"></div></div>
+      <code data-motion-label></code>
+    </div>
+    <div class="contrast" data-contrast></div>
+  </section>
+
+  <!-- ===================== OPTION B: CATALOGUE DRAWER ===================== -->
+  <section class="option" data-letter="B" style="
+    --color-bg:#F4F4F0; --color-surface:#E8E8E2; --color-surface-raised:#FFFFFF;
+    --color-text:#111111; --color-text-muted:#52524E; --color-border:#C8C8C0;
+    --color-accent:#1D4ED8; --color-accent-contrast:#FFFFFF; --color-focus-ring:#1E3A8A;
+    --font-display: 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+    --font-reader: Georgia, serif;
+    --font-body: system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    --hero-size:32px; --display-weight:700;
+    --radius-sm:0px; --radius-md:2px; --radius-lg:2px;
+    --shadow-1: 2px 2px 0 rgba(17,17,17,.9);
+    --duration-fast:110ms; --duration-slow:260ms; --ease-out:cubic-bezier(0.2,1,0.3,1);">
+    <div class="meta">
+      <div class="meta-top">
+        <span class="letter">Option B · Swiss Archival</span>
+        <span class="badge">REJECTED (D-002)</span>
+      </div>
+      <h2>Catalogue Drawer</h2>
+      <p>Typewriter index cards, blue library ink stamps, and hairline tabular grids for rapid research lookup.</p>
+      <p class="signature"><b>Signature move:</b> Die-cut index tab drawer that flips cards in place like a brass-rod card catalogue.</p>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">INDEX 004.12 // PUBLIC DOMAIN ARCHIVE</div>
+      <h3>DIRECT ACCESS TO 14,200 EDITIONS.</h3>
+      <p>Zero ornament. Indexed by call number, translator, publication decade, and word count.</p>
+      <div class="hero-row">
+        <button class="btn">QUERY ARCHIVE →</button>
+        <div class="spines" aria-label="Interactive book spines preview">
+          <div class="spine" tabindex="0">853.914</div>
+          <div class="spine" tabindex="0">824.912</div>
+          <div class="spine" tabindex="0">863.640</div>
+        </div>
+      </div>
+    </div>
+    <div class="swatches" data-swatches></div>
+    <div class="specimen">
+      <div class="display">CALL NO. 853.914 — CALVINO</div>
+      <div class="body">“A book is not an isolated being: it is a relationship, an axis of innumerable relationships.” Indexed with full concordance and folio line numbers.</div>
+      <div class="intended">Intended: Space Grotesk + Inter + IBM Plex Mono</div>
+    </div>
+    <div class="components">
+      <div class="card">
+        <span><strong>INVISIBLE CITIES</strong> / CALVINO, I.</span>
+        <small>[1972 · 41,200 WDS]</small>
+      </div>
+      <input class="input" aria-label="Filter index" placeholder="FILTER BY CALL NO., AUTHOR, OR YEAR…">
+    </div>
+    <div class="motion">
+      <button data-replay>Replay card flip</button>
+      <div class="track"><div class="dot"></div></div>
+      <code data-motion-label></code>
+    </div>
+    <div class="contrast" data-contrast></div>
+  </section>
+
+  <!-- ===================== OPTION C: NIGHT LAMP ===================== -->
+  <section class="option" data-letter="C" style="
+    --color-bg:#141210; --color-surface:#1E1B18; --color-surface-raised:#27231F;
+    --color-text:#EDE6DA; --color-text-muted:#A89F91; --color-border:#2F2A25;
+    --color-accent:#E07A5F; --color-accent-contrast:#141210; --color-focus-ring:#F2A68D;
+    --font-display: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-reader: 'Iowan Old Style', Georgia, serif;
+    --font-body: system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    --hero-size:33px; --display-weight:500;
+    --radius-sm:4px; --radius-md:6px; --radius-lg:10px;
+    --shadow-1: 0 4px 16px rgba(0,0,0,.45);
+    --duration-fast:160ms; --duration-slow:460ms; --ease-out:cubic-bezier(0.16,1,0.3,1);">
+    <div class="meta">
+      <div class="meta-top">
+        <span class="letter">Option C · Nocturnal Study</span>
+        <span class="badge">ADOPTED AS DARK THEME (D-001)</span>
+      </div>
+      <h2>Night Lamp</h2>
+      <p>Warm walnut surfaces, amber terracotta accents, and parchment ink calibrated for late-night reading without eye strain.</p>
+      <p class="signature"><b>Signature move:</b> Radial reading-lamp vignette that gently dims surrounding UI chrome while a chapter is open.</p>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">EVENING EDITION · LOW-GLARE STUDY</div>
+      <h3>Turn down the room. Keep the page lit.</h3>
+      <p>Warm 14:1 parchment-on-walnut contrast designed for unhurried chapters after dark.</p>
+      <div class="hero-row">
+        <button class="btn">Light the Desk</button>
+        <div class="spines" aria-label="Interactive book spines preview">
+          <div class="spine" tabindex="0">CAL · 853</div>
+          <div class="spine" tabindex="0">WOO · 824</div>
+          <div class="spine" tabindex="0">RUL · 863</div>
+        </div>
+      </div>
+    </div>
+    <div class="swatches" data-swatches></div>
+    <div class="specimen">
+      <div class="display">Chapter I — On the Margin</div>
+      <div class="body">“A book is not an isolated being: it is a relationship, an axis of innumerable relationships.” Every edition keeps its translator notes and colophon intact.</div>
+      <div class="intended">Intended: Newsreader + Plus Jakarta Sans + JetBrains Mono</div>
+    </div>
+    <div class="components">
+      <div class="card">
+        <span><strong>Invisible Cities</strong> · Italo Calvino</span>
+        <small>CAL·853 · 2.4 hrs</small>
+      </div>
+      <input class="input" aria-label="Search library" placeholder="Press / to search by title, translator, or mood…">
+    </div>
+    <div class="motion">
+      <button data-replay>Replay lamp fade</button>
+      <div class="track"><div class="dot"></div></div>
+      <code data-motion-label></code>
+    </div>
+    <div class="contrast" data-contrast></div>
+  </section>
+
+</main>
+
+<script>
+  function lum(hex) {
+    hex = hex.trim().replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.substr(i, 2), 16) / 255)
+      .map(c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+  function ratio(a, b) {
+    const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
+    return (x + 0.05) / (y + 0.05);
+  }
+
+  document.querySelectorAll('.option').forEach(opt => {
+    const v = name => getComputedStyle(opt).getPropertyValue(name).trim();
+
+    const roles = ['--color-bg', '--color-surface', '--color-border', '--color-text-muted', '--color-text', '--color-accent'];
+    opt.querySelector('[data-swatches]').innerHTML = roles.map(r => {
+      const hex = v(r), fg = ratio(hex, '#000000') > ratio(hex, '#FFFFFF') ? '#000000' : '#FFFFFF';
+      return `<div style="background:${hex};color:${fg}">${hex}</div>`;
+    }).join('');
+
+    const pairs = [
+      ['--color-text', '--color-bg', 4.5],
+      ['--color-text-muted', '--color-bg', 4.5],
+      ['--color-text', '--color-surface', 4.5],
+      ['--color-accent-contrast', '--color-accent', 4.5],
+      ['--color-accent', '--color-bg', 3.0]
+    ];
+    opt.querySelector('[data-contrast]').innerHTML = pairs.map(([f, b, min]) => {
+      const r = ratio(v(f), v(b));
+      const tier = r >= 7 ? 'AAA' : (r >= min ? 'AA' : 'FAIL');
+      return `<div class="${r < min ? 'fail' : 'pass'}">${f.replace('--color-', '')} on ${b.replace('--color-', '')}: <b>${r.toFixed(2)}:1</b> (${tier})</div>`;
+    }).join('');
+
+    opt.querySelector('[data-motion-label]').textContent = `${v('--duration-slow')} ${v('--ease-out')}`;
+    const track = opt.querySelector('.track');
+    opt.querySelector('[data-replay]').addEventListener('click', () => {
+      track.classList.remove('play'); void track.offsetWidth; track.classList.add('play');
+    });
+  });
+
+  const reduced = document.getElementById('reduced');
+  reduced.checked = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.toggle('reduced', reduced.checked);
+  reduced.addEventListener('change', () => document.body.classList.toggle('reduced', reduced.checked));
+</script>
+</body>
+</html>

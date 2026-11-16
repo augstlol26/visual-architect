@@ -1,0 +1,15 @@
+# OS & editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# Archives & local scratch
+*.zip
+*.tar.gz
+*.bak
+tmp/
+scratch/

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!--
+  Visual Architect: preview starter
+  A self-contained direction board. Duplicate an .option block per direction (A/B/C).
+  Each option's custom properties ARE its candidate tokens, so an accepted option
+  becomes design-tokens.css by copying. Replace every [bracketed] value with real
+  project content. Contrast ratios are computed live by the script at the bottom.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Project] — direction board</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 system-ui, sans-serif; background: #f4f4f2; color: #111; }
+  .board-head { padding: 20px 24px 8px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .board-head h1 { font-size: 16px; margin: 0; }
+  .board-head label { font-size: 12px; color: #555; display: flex; gap: 6px; align-items: center; }
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; padding: 16px 24px 32px; }
+
+  /* ---------- One option = one set of candidate tokens ---------- */
+  .option {
+    background: var(--color-bg); color: var(--color-text);
+    font-family: var(--font-body); border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(0,0,0,.08); display: flex; flex-direction: column;
+  }
+  .meta { padding: 16px 20px; border-bottom: 1px solid var(--color-border); }
+  .meta .letter { font: 600 12px/1 var(--font-mono, monospace); letter-spacing: .1em; color: var(--color-accent); }
+  .meta h2 { font-family: var(--font-display); font-size: 22px; margin: 6px 0 4px; line-height: 1.1; }
+  .meta p { margin: 0; color: var(--color-text-muted); font-size: 13px; }
+  .meta .signature { margin-top: 8px; font-size: 12px; }
+  .meta .signature b { color: var(--color-text); }
+
+  .hero { padding: 28px 20px; background: var(--color-surface); position: relative; min-height: 180px; }
+  .hero .eyebrow { font-size: 11px; letter-spacing: var(--tracking-wide, .08em); text-transform: uppercase; color: var(--color-text-muted); }
+  .hero h3 { font-family: var(--font-display); font-size: var(--hero-size, 40px); line-height: 1; letter-spacing: var(--tracking-tight, -0.02em); margin: 8px 0 12px; font-weight: var(--display-weight, 600); }
+  .hero p { max-width: 32ch; margin: 0 0 16px; color: var(--color-text-muted); }
+  .btn {
+    display: inline-block; padding: 10px 16px; border-radius: var(--radius-md); border: 0;
+    background: var(--color-accent); color: var(--color-accent-contrast); font: 600 13px var(--font-body); cursor: pointer;
+    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-1); }
+  .btn:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; }
+
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); }
+  .swatches div { aspect-ratio: 1; display: flex; align-items: flex-end; padding: 4px; font: 10px var(--font-mono, monospace); }
+
+  .specimen { padding: 16px 20px; border-top: 1px solid var(--color-border); }
+  .specimen .display { font-family: var(--font-display); font-size: 32px; line-height: 1.05; }
+  .specimen .body { font-size: 15px; max-width: var(--measure, 60ch); margin-top: 8px; }
+  .specimen .intended { font: 11px var(--font-mono, monospace); color: var(--color-text-muted); margin-top: 8px; }
+
+  .components { padding: 16px 20px; display: grid; gap: 10px; border-top: 1px solid var(--color-border); }
+  .card { background: var(--color-surface-raised); border: var(--border-width, 1px) solid var(--color-border); border-radius: var(--radius-lg); padding: 14px; box-shadow: var(--shadow-1); }
+  .card small { color: var(--color-text-muted); }
+  .input { width: 100%; padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font: inherit; }
+  .input:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 1px; }
+
+  .motion { padding: 16px 20px; border-top: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px; }
+  .motion .dot { width: 28px; height: 28px; border-radius: var(--radius-full, 999px); background: var(--color-accent); }
+  .motion .track { flex: 1; height: 28px; position: relative; }
+  .motion .track .dot { position: absolute; left: 0; top: 0; }
+  .motion .track.play .dot { animation: travel var(--duration-slow) var(--ease-out) forwards; }
+  .motion button { font: 11px var(--font-mono, monospace); background: none; border: 1px solid var(--color-border); color: var(--color-text); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+  .motion code { font-size: 10px; color: var(--color-text-muted); }
+  @keyframes travel { to { transform: translateX(calc(100% * 6)); } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  body.reduced .motion .track.play .dot { animation: fade var(--duration-fast) linear forwards; }
+
+  .contrast { padding: 12px 20px 16px; border-top: 1px solid var(--color-border); font: 11px var(--font-mono, monospace); color: var(--color-text-muted); display: grid; gap: 2px; }
+  .contrast .fail { color: #b00020; font-weight: 700; }
+</style>
+</head>
+<body>
+<header class="board-head">
+  <h1>[Project] — creative directions</h1>
+  <label><input type="checkbox" id="reduced"> Preview reduced motion</label>
+</header>
+
+<main class="board">
+
+  <!-- ===================== OPTION A ===================== -->
+  <section class="option" data-letter="A" style="
+    --color-bg:#FBF8F3; --color-surface:#F1EADF; --color-surface-raised:#FFFFFF;
+    --color-text:#1C1917; --color-text-muted:#57534E; --color-border:#E2D9CB;
+    --color-accent:#9A3412; --color-accent-contrast:#FFFFFF; --color-focus-ring:#7C2D12;
+    --font-display: Georgia, 'Times New Roman', serif; --font-body: system-ui, sans-serif; --font-mono: ui-monospace, Consolas, monospace;
+    --hero-size:44px; --display-weight:500;
+    --radius-sm:4px; --radius-md:6px; --radius-lg:8px;
+    --shadow-1: 0 1px 2px rgba(28,25,23,.08);
+    --duration-fast:160ms; --duration-slow:600ms; --ease-out:cubic-bezier(0.16,1,0.3,1);">
+    <div class="meta">
+      <div class="letter">OPTION A</div>
+      <h2>[Direction name]</h2>
+      <p>[One-line idea and why it fits this audience.]</p>
+      <p class="signature"><b>Signature move:</b> [the one ownable element]</p>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">[Real eyebrow copy]</div>
+      <h3>[Real headline]</h3>
+      <p>[Real supporting sentence from the brief.]</p>
+      <button class="btn">[Primary action]</button>
+    </div>
+    <div class="swatches" data-swatches></div>
+    <div class="specimen">
+      <div class="display">[Display sample]</div>
+      <div class="body">[A body paragraph at real size and measure, written in the brand's voice about this product.]</div>
+      <div class="intended">Intended: [Display face] + [Body face] · shown with system fallbacks</div>
+    </div>
+    <div class="components">
+      <div class="card"><strong>[Card title]</strong><br><small>[metadata]</small></div>
+      <input class="input" placeholder="[Search or form placeholder]">
+    </div>
+    <div class="motion">
+      <button data-replay>Replay</button>
+      <div class="track"><div class="dot"></div></div>
+      <code data-motion-label></code>
+    </div>
+    <div class="contrast" data-contrast></div>
+  </section>
+
+  <!-- Duplicate the section above for OPTION B and OPTION C with different tokens. -->
+
+</main>
+
+<script>
+  // Contrast ratio (WCAG 2.x)
+  function lum(hex) {
+    hex = hex.trim().replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.substr(i, 2), 16) / 255)
+      .map(c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+  function ratio(a, b) { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); }
+
+  document.querySelectorAll('.option').forEach(opt => {
+    const v = name => getComputedStyle(opt).getPropertyValue(name).trim();
+
+    // Swatches
+    const roles = ['--color-bg', '--color-surface', '--color-border', '--color-text-muted', '--color-text', '--color-accent'];
+    opt.querySelector('[data-swatches]').innerHTML = roles.map(r => {
+      const hex = v(r), fg = ratio(hex, '#000') > ratio(hex, '#fff') ? '#000' : '#fff';
+      return `<div style="background:${hex};color:${fg}">${hex}</div>`;
+    }).join('');
+
+    // Contrast table
+    const pairs = [['--color-text', '--color-bg', 4.5], ['--color-text-muted', '--color-bg', 4.5],
+                   ['--color-text', '--color-surface', 4.5], ['--color-accent-contrast', '--color-accent', 4.5],
+                   ['--color-accent', '--color-bg', 3], ['--color-focus-ring', '--color-bg', 3]];
+    opt.querySelector('[data-contrast]').innerHTML = pairs.map(([f, b, min]) => {
+      const r = ratio(v(f), v(b));
+      return `<div class="${r < min ? 'fail' : ''}">${f.replace('--color-', '')} on ${b.replace('--color-', '')}: ${r.toFixed(2)}:1 ${r >= min ? '✓' : '✗ needs ' + min}</div>`;
+    }).join('');
+
+    // Motion
+    opt.querySelector('[data-motion-label]').textContent = `${v('--duration-slow')} ${v('--ease-out')}`;
+    const track = opt.querySelector('.track');
+    opt.querySelector('[data-replay]').addEventListener('click', () => {
+      track.classList.remove('play'); void track.offsetWidth; track.classList.add('play');
+    });
+  });
+
+  const reduced = document.getElementById('reduced');
+  reduced.checked = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.toggle('reduced', reduced.checked);
+  reduced.addEventListener('change', () => document.body.classList.toggle('reduced', reduced.checked));
+</script>
+</body>
+</html>
