@@ -48,6 +48,7 @@ Write or update, in `docs/design/`:
 - `design-specification.md` from `templates/design-specification.md`
 - `design-decisions.md` from `templates/design-decisions.md`
 - `design-tokens.css` (and `design-tokens.json` when useful) per `tokens.md`
+- `builder-handoff-prompt.md` from `templates/builder-handoff-prompt.md` (when ready to hand off to a coding agent)
 - `previews/`: the accepted preview files
 
 Mark every requirement as **Must**, **Preferred**, **Optional**, or **Implementer's choice**. Then run the readiness gate.

@@ -22,7 +22,7 @@ Interpret everything after `/visual-architect` as a subcommand, a target, or a p
 | `layout`, `motion`, `interactions`, `identity`, `responsive` | [workflows/create.md](workflows/create.md) → *Focused commands* | Only via the approval flow in `change.md` |
 | `review` | [workflows/review.md](workflows/review.md) | Never, read-only |
 | `redesign`, `enhance`, `refine` | [workflows/change.md](workflows/change.md) | Yes, after explicit approval |
-| `status`, `update`, `help` | This file, below | No |
+| `status`, `update`, `handoff`, `help` | This file, below | No |
 
 Subcommands are interpreted by this skill; they are not separately registered IDE commands.
 
@@ -50,8 +50,12 @@ Apply the requested change to the brief, specification, tokens, or ledger. Add a
 
 List the subcommands from the routing table with one example each, the three decision modes, and the depth modes (Essential, Detailed, Expert).
 
+## handoff
+
+Generate `docs/design/builder-handoff-prompt.md` from `templates/builder-handoff-prompt.md`, populated with the project's confirmed decisions (`D-*`), signature move, Must-priority build scope, and token file paths. Check the readiness gate first and flag any failing items.
+
 ## Skill files
 
 - `workflows/`: one file per route; load only the one you need.
-- `references/`: `previews.md`, `tokens.md`, `anti-generic.md`, plus design catalogues: `design-taxonomy.md`, `layout-systems.md`, `visual-identity.md`, `interaction-patterns.md`, `motion-design.md`.
-- `templates/`: `project-brief.md`, `design-specification.md`, `design-decisions.md`, `design-tokens.css`, `review-report.md`, `preview-starter.html`.
+- `references/`: `previews.md`, `tokens.md`, `anti-generic.md`, `vibe-to-tokens.md`, plus design catalogues: `design-taxonomy.md`, `layout-systems.md`, `visual-identity.md`, `interaction-patterns.md`, `motion-design.md`.
+- `templates/`: `project-brief.md`, `design-specification.md`, `design-decisions.md`, `design-tokens.css`, `review-report.md`, `preview-starter.html`, `builder-handoff-prompt.md`.

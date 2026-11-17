@@ -9,7 +9,7 @@ Changes to an existing design, and optionally its code.
 ## Steps
 
 ### 1. Scope
-Confirm the target and the change type if they're unclear. Read `docs/design/` (specification, ledger, tokens) and the relevant code.
+Confirm the target and the change type if they're unclear. Read `docs/design/` (specification, ledger, tokens) and the relevant code. When the user describes changes in sensory terms (*"quieter"*, *"snappier"*, *"more editorial"*), consult [vibe-to-tokens.md](../references/vibe-to-tokens.md) to translate them into exact token shifts.
 
 **Done when** you can name the files and pages in scope.
 

@@ -58,7 +58,7 @@ I want a digital library where people can discover, shelve, read, and share book
 | **Focused modules** | `layout`, `motion`, `interactions`, `identity`, `responsive` | Only after explicit approval |
 | **Audit** | `review` | Never — read-only P0–P3 rubric report |
 | **Improve** | `redesign`, `enhance`, `refine` | Yes — after scope & preview approval |
-| **Manage** | `status`, `update`, `help` | No |
+| **Manage** | `status`, `update`, `handoff`, `help` | No |
 
 See [docs/commands.md](docs/commands.md) and [docs/usage-guide.md](docs/usage-guide.md).
 
@@ -93,6 +93,7 @@ visual-architect/
 │   │   ├── previews.md                 # Visual preview types & HTML build rules
 │   │   ├── tokens.md                   # 2-tier design token architecture & WCAG contrast math
 │   │   ├── anti-generic.md             # Domain mining, signature moves, swap test
+│   │   ├── vibe-to-tokens.md           # 20-phrase sensory feedback to token translator
 │   │   ├── design-taxonomy.md          # Art directions with "use when / watch out for"
 │   │   ├── layout-systems.md           # Layout structures, trade-offs, responsive guidance
 │   │   ├── visual-identity.md          # Pairing strategies, palette construction
@@ -104,7 +105,8 @@ visual-architect/
 │       ├── design-decisions.md
 │       ├── design-tokens.css
 │       ├── review-report.md
-│       └── preview-starter.html
+│       ├── preview-starter.html
+│       └── builder-handoff-prompt.md
 ├── docs/
 │   ├── architecture.md
 │   ├── commands.md

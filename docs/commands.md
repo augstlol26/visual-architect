@@ -35,6 +35,7 @@ Invoke `/visual-architect` followed by a subcommand or a natural-language brief.
 |---|---|
 | `/visual-architect status` | Report ledger counts by status, 7-point readiness gate pass/fail, blocking open questions, and the single next question. |
 | `/visual-architect update [change]` | Amend the brief, specification, tokens, or decision ledger and log a dated entry. |
+| `/visual-architect handoff` | Generate `docs/design/builder-handoff-prompt.md` to lock a coding agent to your approved tokens, signature move, and readiness checks. |
 | `/visual-architect help` | List subcommands, decision modes, and depth modes. |
 
 ## Approval and safety rules

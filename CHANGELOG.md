@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 — Vibe-to-Token Translator & Builder Handoff Contract
+- **Vibe-to-Token Translator (`references/vibe-to-tokens.md`):** Added a 20-phrase sensory feedback map translating natural language (*"quieter"*, *"snappier"*, *"more editorial"*, etc.) directly into concrete token shifts.
+- **Builder Handoff Command (`/visual-architect handoff`, `templates/builder-handoff-prompt.md`):** Added a coding-agent handoff contract template that locks downstream implementation agents to approved tokens, signature moves, and the 7-point readiness checks.
+
 ## 0.2.0 — Visual Previews, Design Tokens, and Progressive Disclosure
 - **Visual previews (`references/previews.md`, `templates/preview-starter.html`):** Added "Show, then ask" rule requiring self-contained HTML previews (direction boards, palette contrast sheets, type specimens, wireframes, motion demos) with live WCAG contrast calculation and reduced-motion toggles.
 - **Design tokens (`references/tokens.md`, `templates/design-tokens.css`):** Added two-tier token architecture (primitive + semantic roles) so accepted previews convert directly into production CSS custom properties or W3C Design Tokens JSON.
